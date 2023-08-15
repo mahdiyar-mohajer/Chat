@@ -15,7 +15,7 @@ $(document).ready(function () {
 
     getAllContact()
     $("#message").on("input", function () {
-        const charLeft = 10 - $(this).val().length;
+        const charLeft = 100 - $(this).val().length;
         const sText = `${charLeft}`;
         $("#text-count").text(sText);
         $("#submit").show();

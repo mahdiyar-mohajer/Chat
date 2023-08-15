@@ -4,10 +4,10 @@ require_once "../config.php";
 date_default_timezone_set('asia/tehran');
 $time = date('H:i:s');
 if (isset($_POST['submit'])) {
-    if (SAVE_DATA === 'JSON'){
+    if (SAVE_DATA === 'JSON') {
         $users = json_decode(file_get_contents("../storage/users.json"), true);
     }
-    if (SAVE_DATA === 'MYSQL'){
+    if (SAVE_DATA === 'MYSQL') {
         //todo database connection
     }
     $username = $_SESSION['username'];
@@ -21,7 +21,7 @@ if (isset($_POST['submit'])) {
         $username = $_SESSION['username'];
         $message = $_POST['message'];
         $time = date('H:i:s');
-        if (SAVE_DATA === 'JSON'){
+        if (SAVE_DATA === 'JSON') {
             $jsonMessage = json_decode(file_get_contents("../storage/message.json"), true);
             if (empty($jsonMessage)) {
                 $id = 1;
@@ -30,7 +30,7 @@ if (isset($_POST['submit'])) {
                 $id = $end['id'] + 1;
             }
         }
-        if (SAVE_DATA === 'MYSQL'){
+        if (SAVE_DATA === 'MYSQL') {
             //todo database connection
         }
 
@@ -41,11 +41,11 @@ if (isset($_POST['submit'])) {
             'message' => $message,
             'time' => $time
         ];
-        if (SAVE_DATA === 'JSON'){
+        if (SAVE_DATA === 'JSON') {
             array_push($jsonMessage, $messageUser);
             file_put_contents('../storage/message.json', json_encode($jsonMessage));
         }
-        if (SAVE_DATA === 'MYSQL'){
+        if (SAVE_DATA === 'MYSQL') {
             //todo database connection
         }
     }
@@ -73,11 +73,11 @@ if (isset($_POST['submit'])) {
     <div class="left-container">
 
         <?php
-        if (SAVE_DATA === 'JSON'){
+        if (SAVE_DATA === 'JSON') {
             $jsonMessage = json_decode(file_get_contents("../storage/message.json"), true);
             $users = json_decode(file_get_contents("../storage/users.json"), true);
         }
-        if (SAVE_DATA === 'MYSQL'){
+        if (SAVE_DATA === 'MYSQL') {
             //todo database connection
         }
 
@@ -216,15 +216,18 @@ if (isset($_POST['submit'])) {
             <h3 id="text-count" class="mx-2 text-green-600"></h3>
             <div class="chatbox-input">
                 <i class="fa-regular fa-face-grin"></i>
-                <i class="fa-sharp fa-solid fa-paperclip"></i>
+                <label for="fileUpload">
+                    <i class="fa-sharp fa-solid fa-paperclip"></i>
+                </label>
+
                 <input type="text" placeholder="Type a message" name="message" id="message">
                 <button class="fa-solid fa-paper-plane-top" type="submit" name="submit" id="submit">send</button>
             </div>
         </form>
         <form action="./upload.php" method="POST" enctype="multipart/form-data">
             <div id="wrapper">
-                <input id="fileUpload" type="file" name="file">
-                <input type="submit" name="submit" value="submit">
+                <input class="hidden" id="fileUpload" type="file" name="file">
+                <input type="submit" name="submit" value="Send File">
             </div>
         </form>
     </div>
