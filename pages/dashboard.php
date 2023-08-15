@@ -44,6 +44,7 @@ if (isset($_POST['submit'])) {
         if (SAVE_DATA === 'JSON') {
             array_push($jsonMessage, $messageUser);
             file_put_contents('../storage/message.json', json_encode($jsonMessage));
+            header('Refresh:0');
         }
         if (SAVE_DATA === 'MYSQL') {
             //todo database connection
