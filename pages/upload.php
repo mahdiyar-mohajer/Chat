@@ -3,8 +3,12 @@ session_start();
 require_once "../config.php";
 function getUploadDirectory()
 {
-
-    $users = json_decode(file_get_contents("../storage/users.json"), true);
+    if (SAVE_DATA === 'JSON'){
+        $users = json_decode(file_get_contents("../storage/users.json"), true);
+    }
+    if (SAVE_DATA === 'MYSQL'){
+        //todo database connection
+    }
     $username = $_SESSION['username'];
     $loginUser = [];
     foreach ($users as $user) {
@@ -47,7 +51,12 @@ $time = date('H:i:s');
 $username = $_SESSION['username'];
 $message = $targetFile;
 $time = date('H:i:s');
-$jsonMessage = json_decode(file_get_contents("../storage/message.json"), true);
+if (SAVE_DATA === 'JSON'){
+    $jsonMessage = json_decode(file_get_contents("../storage/message.json"), true);
+}
+if (SAVE_DATA === 'MYSQL'){
+    //todo database connection
+}
 if (empty($jsonMessage)) {
     $id = 1;
 } else {
@@ -55,5 +64,10 @@ if (empty($jsonMessage)) {
     $id = $end['id'] + 1;
 }
 $messageUser = ['id' => $id, 'user_name' => $username, 'message' => $message, 'time' => $time , 'type' => 'pic'];
-array_push($jsonMessage, $messageUser);
-file_put_contents('../storage/message.json', json_encode($jsonMessage));
+if (SAVE_DATA === 'JSON'){
+    array_push($jsonMessage, $messageUser);
+    file_put_contents('../storage/message.json', json_encode($jsonMessage));
+}
+if (SAVE_DATA === 'MYSQL'){
+    //todo database connection
+}

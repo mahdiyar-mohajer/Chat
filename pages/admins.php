@@ -37,8 +37,13 @@ require_once "../config.php";
 
             <tbody>
             <?php
+            if (SAVE_DATA === 'JSON'){
+                $users = json_decode(file_get_contents("../storage/users.json"), true);
+            }
+            if (SAVE_DATA === 'MYSQL'){
+                //todo database connection
+            }
 
-            $users = json_decode(file_get_contents("../storage/users.json"), true);
 
             foreach ($users as $user) {
                 ?>

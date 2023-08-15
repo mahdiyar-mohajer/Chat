@@ -1,7 +1,12 @@
 <?php
 require_once "../config.php";
 $id = $_GET['id'];
-$users = json_decode(file_get_contents("../storage/users.json"), true);
+if (SAVE_DATA === 'JSON'){
+    $users = json_decode(file_get_contents("../storage/users.json"), true);
+}
+if (SAVE_DATA === 'MYSQL'){
+    //todo database connection
+}
 
 foreach ($users as &$user){
     if ($user['id'] == $id){
@@ -10,5 +15,10 @@ foreach ($users as &$user){
         echo $user['name'] . ' is admin now';
     }
 }
-$jsonData = json_encode($users);
-file_put_contents("../storage/users.json", $jsonData);
+if (SAVE_DATA === 'JSON'){
+    $jsonData = json_encode($users);
+    file_put_contents("../storage/users.json", $jsonData);
+}
+if (SAVE_DATA === 'MYSQL'){
+    //todo database connection
+}

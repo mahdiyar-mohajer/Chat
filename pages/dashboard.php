@@ -4,8 +4,12 @@ require_once "../config.php";
 date_default_timezone_set('asia/tehran');
 $time = date('H:i:s');
 if (isset($_POST['submit'])) {
-
-    $users = json_decode(file_get_contents("../storage/users.json"), true);
+    if (SAVE_DATA === 'JSON'){
+        $users = json_decode(file_get_contents("../storage/users.json"), true);
+    }
+    if (SAVE_DATA === 'MYSQL'){
+        //todo database connection
+    }
     $username = $_SESSION['username'];
     $loginUser = [];
     foreach ($users as $user) {
@@ -17,21 +21,33 @@ if (isset($_POST['submit'])) {
         $username = $_SESSION['username'];
         $message = $_POST['message'];
         $time = date('H:i:s');
-        $jsonMessage = json_decode(file_get_contents("../storage/message.json"), true);
-        if (empty($jsonMessage)) {
-            $id = 1;
-        } else {
-            $end = end($jsonMessage);
-            $id = $end['id'] + 1;
+        if (SAVE_DATA === 'JSON'){
+            $jsonMessage = json_decode(file_get_contents("../storage/message.json"), true);
+            if (empty($jsonMessage)) {
+                $id = 1;
+            } else {
+                $end = end($jsonMessage);
+                $id = $end['id'] + 1;
+            }
         }
+        if (SAVE_DATA === 'MYSQL'){
+            //todo database connection
+        }
+
+
         $messageUser = [
             'id' => $id,
             'user_name' => $username,
             'message' => $message,
             'time' => $time
         ];
-        array_push($jsonMessage, $messageUser);
-        file_put_contents('../storage/message.json', json_encode($jsonMessage));
+        if (SAVE_DATA === 'JSON'){
+            array_push($jsonMessage, $messageUser);
+            file_put_contents('../storage/message.json', json_encode($jsonMessage));
+        }
+        if (SAVE_DATA === 'MYSQL'){
+            //todo database connection
+        }
     }
 }
 
@@ -57,8 +73,14 @@ if (isset($_POST['submit'])) {
     <div class="left-container">
 
         <?php
-        $jsonMessage = json_decode(file_get_contents("../storage/message.json"), true);
-        $users = json_decode(file_get_contents("../storage/users.json"), true);
+        if (SAVE_DATA === 'JSON'){
+            $jsonMessage = json_decode(file_get_contents("../storage/message.json"), true);
+            $users = json_decode(file_get_contents("../storage/users.json"), true);
+        }
+        if (SAVE_DATA === 'MYSQL'){
+            //todo database connection
+        }
+
         $username = $_SESSION['username'];
         $loginUser = [];
         foreach ($users as $user) {

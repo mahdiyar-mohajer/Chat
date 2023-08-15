@@ -18,7 +18,12 @@ require_once "../config.php";
 if (isset($_POST['submit'])) {
     $username = $_POST['username'];
     $password = $_POST['password'];
-    $users = json_decode(file_get_contents('../storage/users.json'), true);
+    if (SAVE_DATA === 'JSON'){
+        $users = json_decode(file_get_contents('../storage/users.json'), true);
+    }
+    if (SAVE_DATA === 'MYSQL'){
+        //todo database connection
+    }
     foreach ($users as $user) {
         if ($user['user_name'] == $username and $user['password'] == $password) {
             $_SESSION['username'] = $username;

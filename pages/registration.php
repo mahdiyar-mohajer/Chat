@@ -25,8 +25,13 @@ if (isset($_POST['submit'])) {
     $time = date("Y-m-d H:i:s");
 
     if ($userNameValidate && $emailValidate && $nameValidate && $passwordValidate) {
-        $content = file_get_contents('../storage/users.json');
-        $users = json_decode($content, true);
+        if (SAVE_DATA === 'JSON'){
+            $content = file_get_contents('../storage/users.json');
+            $users = json_decode($content, true);
+        }
+        if (SAVE_DATA === 'MYSQL'){
+            //todo database connection
+        }
         foreach ($users as $user) {
             if ($user['user_name'] != $username && $user['email'] != $email) {
                 if (empty($content)) {
@@ -46,7 +51,13 @@ if (isset($_POST['submit'])) {
                     'block' => false,
                 ];
                 $users[] = $user;
-                $result = file_put_contents('../storage/users.json', json_encode($users));
+                if (SAVE_DATA === 'JSON'){
+                    $result = file_put_contents('../storage/users.json', json_encode($users));
+                }
+                if (SAVE_DATA === 'MYSQL'){
+                    //todo database connection
+                }
+
                 mkdir("../storage/users folder/$username", 0777, true);
                 if ($result !== false) {
                     echo "<div class='form'>
