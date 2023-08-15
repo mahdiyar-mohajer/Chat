@@ -1,5 +1,6 @@
 <?php
 session_start();
+require_once "../config.php";
 date_default_timezone_set('asia/tehran');
 $time = date('H:i:s');
 if (isset($_POST['submit'])) {

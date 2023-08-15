@@ -1,4 +1,5 @@
 <?php
+require_once "../config.php";
 $id = $_GET['id'];
 $users = json_decode(file_get_contents("../storage/users.json"), true);
 

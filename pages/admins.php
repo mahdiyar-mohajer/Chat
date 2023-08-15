@@ -1,3 +1,6 @@
+<?php
+require_once "../config.php";
+?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -34,6 +37,7 @@
 
             <tbody>
             <?php
+
             $users = json_decode(file_get_contents("../storage/users.json"), true);
 
             foreach ($users as $user) {
