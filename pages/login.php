@@ -1,3 +1,8 @@
+<?php
+session_start();
+ob_start()
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -6,9 +11,8 @@
     <link rel="stylesheet" href="../aseet/style/style.css"/>
 </head>
 <body>
-<?php
 
-session_start();
+<?php
 
 if (isset($_POST['submit'])) {
     $username = $_POST['username'];
