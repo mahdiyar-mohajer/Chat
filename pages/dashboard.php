@@ -8,7 +8,12 @@ if (isset($_POST['submit'])) {
         $users = json_decode(file_get_contents("../storage/users.json"), true);
     }
     if (SAVE_DATA === 'MYSQL') {
-        //todo database connection
+        $db = new PDO('mysql:host=mysql;dbname=chatroom', 'mahdiyar', 123456);
+        $db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+        $query = "SELECT * FROM users";
+        $stmt = $db->prepare($query);
+        $stmt->execute();
+        $users = $stmt->fetchAll();
     }
     $username = $_SESSION['username'];
     $loginUser = [];
@@ -29,25 +34,36 @@ if (isset($_POST['submit'])) {
                 $end = end($jsonMessage);
                 $id = $end['id'] + 1;
             }
+            $messageUser = [
+                'id' => $id,
+                'user_name' => $username,
+                'message' => $message,
+                'time' => $time
+            ];
         }
         if (SAVE_DATA === 'MYSQL') {
-            //todo database connection
+            $db = new PDO('mysql:host=mysql;dbname=chatroom', 'mahdiyar', 123456);
+            $db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+            $query = "SELECT * FROM messages ORDER BY time";
+            $stmt = $db->prepare($query);
+            $stmt->execute();
+            $jsonMessage = $stmt->fetchAll();
         }
 
 
-        $messageUser = [
-            'id' => $id,
-            'user_name' => $username,
-            'message' => $message,
-            'time' => $time
-        ];
         if (SAVE_DATA === 'JSON') {
             array_push($jsonMessage, $messageUser);
             file_put_contents('../storage/message.json', json_encode($jsonMessage));
             header('Refresh:0');
         }
         if (SAVE_DATA === 'MYSQL') {
-            //todo database connection
+            $db = new PDO('mysql:host=mysql;dbname=chatroom', 'mahdiyar', 123456);
+            $query2 = "INSERT INTO messages (user_name, message) VALUES (:user_name, :message)";
+            $stmt2 = $db->prepare($query2);
+            $stmt2->bindParam(':user_name', $username);
+            $stmt2->bindParam(':message', $message);
+            $stmt2->execute();
+            header('Refresh:0');
         }
     }
 }
@@ -79,7 +95,19 @@ if (isset($_POST['submit'])) {
             $users = json_decode(file_get_contents("../storage/users.json"), true);
         }
         if (SAVE_DATA === 'MYSQL') {
-            //todo database connection
+            $db = new PDO('mysql:host=mysql;dbname=chatroom', 'mahdiyar', 123456);
+            $db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+            $query = "SELECT * FROM messages ORDER BY time";
+            $stmt = $db->prepare($query);
+            $stmt->execute();
+            $jsonMessage = $stmt->fetchAll();
+
+            $db = new PDO('mysql:host=mysql;dbname=chatroom', 'mahdiyar', 123456);
+            $db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+            $query = "SELECT * FROM users";
+            $stmt = $db->prepare($query);
+            $stmt->execute();
+            $users = $stmt->fetchAll();
         }
 
         $username = $_SESSION['username'];
