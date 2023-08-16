@@ -41,7 +41,12 @@ require_once "../config.php";
                 $users = json_decode(file_get_contents("../storage/users.json"), true);
             }
             if (SAVE_DATA === 'MYSQL'){
-                //todo database connection
+                $db = new PDO('mysql:host=mysql;dbname=chatroom', 'mahdiyar', 123456);
+                $db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+                $query = "SELECT * FROM users";
+                $stmt = $db->prepare($query);
+                $stmt->execute();
+                $users = $stmt->fetchAll();
             }
 
             foreach ($users as $user) {
