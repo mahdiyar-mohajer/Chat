@@ -1,3 +1,3 @@
 <?php
-//define('SAVE_DATA', 'JSON');
-define('SAVE_DATA', 'MYSQL');
+define('SAVE_DATA', 'JSON');
+//define('SAVE_DATA', 'MYSQL');
